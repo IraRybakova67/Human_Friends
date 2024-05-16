@@ -32,7 +32,7 @@ public class FileService {
         return value;
     }
 
-    public void rezultSearch(int id, String value) {
+    public void rezultSearch(int id, String value) { // результат поиска
 
         if (value != null) {
             System.out.println("Значение с id " + id + ": " + value);

@@ -1,19 +1,15 @@
 package service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import model.Commands;
-
 import model.Title;
 import model.Types;
 
 public class Menu {
-   
+
     DataService dataService = new DataService();
     AnimalService animalService = new AnimalService();
     FileService fileService = new FileService();
@@ -29,14 +25,12 @@ public class Menu {
                 System.out.println("2. Создать тип");
                 System.out.println("3. Создать команду");
                 System.out.println("4. Создать животное");
-                System.out.println("5. Выучить команду");
-                System.out.println("6. Вывести список животных");
+                System.out.println("5. Поиск названия по id");
+                System.out.println("6. Поиск команды по id");
                 System.out.println("7. Вывести названия животных");
                 System.out.println("8. Вывести типы животных");
                 System.out.println("9. Вывести список команд");
-                System.out.println("10. Вывести список вьючных животных");
-                System.out.println("11. Вывести список домашних животных");
-                System.out.println("12. Вывести список  животных по дате рождения");
+                System.out.println("10. Вывести список животных");
                 System.out.println("0. выход");
                 System.out.print("Сделайте свой выбор: ");
                 choice = scanner.nextInt();
@@ -75,8 +69,6 @@ public class Menu {
                             birthDate = animalService.getLocalDate(input);
                         }
 
-                        // ===========================================================================================================
-
                         System.out.print("Введите  id названия животного: ");
                         while (!scanner.hasNextInt()) {
                             System.out.println("Некорректный ввод. Введите число!");
@@ -84,7 +76,7 @@ public class Menu {
                             scanner.next();
                         }
                         int titleId = scanner.nextInt();
-                        // Title titleAnimal = controller.titleAnimal(titleId);
+
                         String titleNewAnimal = fileService.findValueById("AnimalsTitles.csv", titleId);
 
                         System.out.print("Введите  id типа животного: ");
@@ -94,7 +86,7 @@ public class Menu {
                             scanner.next();
                         }
                         int typeId = scanner.nextInt();
-                        // Types typeAnimal = controller.typeAnimal(typeId);
+
                         String typeNewAnimal = fileService.findValueById("AnimalsTypes.csv", typeId);
 
                         int idAnimal = animalService.idAnimal();
@@ -129,11 +121,10 @@ public class Menu {
                                 TypeEnum.Type);
 
                         animalService.newAnimal(idAnimal, typeStr, birthDate, nick, titleStr, commandForAnimal);
-                        animalService.printAnimal( animalService.newAnimal(idAnimal, typeStr, birthDate, nick, titleStr, commandForAnimal));
-                        fileService.addAnimalToFile( animalService.newAnimal(idAnimal, typeStr, birthDate, nick, titleStr, commandForAnimal));
-                        //fileService.addToAnimalsFile(animalService.newAnimal(idAnimal, typeStr, birthDate, nick, titleStr, commandForAnimal));
-
-                      //  fileService.addNewValue(titleNewAnimal, typeNewAnimal);
+                        animalService.printAnimal(animalService.newAnimal(idAnimal, typeStr, birthDate, nick, titleStr,
+                                commandForAnimal));
+                        fileService.addAnimalToFile(animalService.newAnimal(idAnimal, typeStr, birthDate, nick,
+                                titleStr, commandForAnimal));
 
                         break;
                     case 5:
@@ -148,49 +139,35 @@ public class Menu {
                         String foundTitle = fileService.findValueById("AnimalsTitles.csv", Id);
                         fileService.rezultSearch(Id, foundTitle);
 
-
-                        /*
-                         * if (foundTitle != null) {
-                         * System.out.println("Значение с id " + Id + ": " + foundTitle);
-                         * } else {
-                         * System.out.println("Значение с id " + Id + " не найдено.");
-                         * }
-                         */
-
-                        // animalService.printOnConsoleAnimal(newAnimal(idAnimal,nick, birthDate,
-                        // titleAnimal, typeAnimal, commandForAnimal));
-
-                        break;
-                        case 11: 
-                        animalService.sendOnConsole(animalService.viewAnimals());
-                        break;
-
-
-
-                    case 7:
-                        
-                        fileService.printList("AnimalsTitles.csv");
-                        break;
-                    case 8:
-                       
-                        fileService.printList("AnimalsTypes.csv");
-                        break;
-                    case 9:
-                        fileService.printList("AnimalsCommands.csv");
-
-                        
-                        break;
-
-                    case 10:
-                        System.out.print("Введите  id для поиска: ");
+                    case 6:
+                        System.out.print("Введите  id команды животного: "); // поиск по id команды
                         while (!scanner.hasNextInt()) {
                             System.out.println("Некорректный ввод. Введите число!");
                             System.out.print("Введите ID: ");
                             scanner.next();
                         }
-                        int id = scanner.nextInt();
+                        int IdCom = scanner.nextInt();
 
-                        System.out.print(dataService.findById(id, (dataService.getList(TypeEnum.Title))));
+                        String foundComm = fileService.findValueById("AnimalsCommands.csv", IdCom);
+                        fileService.rezultSearch(IdCom, foundComm);
+
+                        break;
+
+                    case 7:
+
+                        fileService.printList("AnimalsTitles.csv");
+                        break;
+                    case 8:
+
+                        fileService.printList("AnimalsTypes.csv");
+                        break;
+                    case 9:
+                        fileService.printList("AnimalsCommands.csv");
+
+                        break;
+
+                    case 10:
+                        animalService.sendOnConsole(animalService.viewAnimals());
                         break;
 
                     case 0:
